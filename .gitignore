@@ -51,3 +51,8 @@ logs/
 
 # Documentation files (keep locally, exclude from git)
 *.md
+
+# Scripts (keep locally, exclude from git)
+*.bat
+*.ps1
+*.sh
