@@ -1,0 +1,64 @@
+Job Title: Data Analyst
+
+Company: TechCorp Solutions
+Location: Remote / San Francisco, CA
+Type: Full-time
+
+Job Description:
+
+We are seeking a talented Data Analyst to join our growing analytics team. The ideal candidate will be responsible for analyzing complex datasets, creating insightful reports, and providing data-driven recommendations to stakeholders across the organization.
+
+Key Responsibilities:
+- Analyze large datasets using SQL and Python to extract meaningful insights
+- Create and maintain interactive dashboards using Tableau and Power BI
+- Develop statistical models and perform predictive analytics
+- Collaborate with cross-functional teams to understand business requirements
+- Present findings and recommendations to senior management
+- Clean and preprocess data to ensure accuracy and reliability
+- Write and optimize SQL queries for data extraction
+- Perform A/B testing and analyze results
+- Monitor key performance indicators (KPIs) and create regular reports
+
+Required Qualifications:
+- Bachelor's degree in Statistics, Mathematics, Computer Science, or related field
+- 2+ years of experience in data analysis or business intelligence
+- Proficiency in SQL for data querying and manipulation
+- Strong Python programming skills (pandas, numpy, matplotlib)
+- Experience with data visualization tools (Tableau, Power BI, or similar)
+- Solid understanding of statistical concepts and methods
+- Excellent problem-solving and analytical thinking skills
+- Strong communication skills to present complex data insights
+
+Preferred Qualifications:
+- Master's degree in Data Science, Statistics, or related field
+- Experience with machine learning algorithms and libraries (scikit-learn)
+- Knowledge of cloud platforms (AWS, Azure, or GCP)
+- Experience with Git version control
+- Familiarity with ETL processes and data pipelines
+- Experience with R programming language
+- Knowledge of database design and optimization
+
+Technical Skills Required:
+- SQL (Advanced)
+- Python (Intermediate to Advanced)
+- Excel (Advanced - pivot tables, VLOOKUP, macros)
+- Tableau or Power BI
+- Statistics and Statistical Analysis
+- Data Visualization
+
+Soft Skills:
+- Strong analytical and critical thinking
+- Attention to detail
+- Time management and ability to meet deadlines
+- Team collaboration
+- Clear written and verbal communication
+- Ability to translate technical findings to non-technical stakeholders
+
+What We Offer:
+- Competitive salary and benefits package
+- Remote work flexibility
+- Professional development opportunities
+- Collaborative and innovative work environment
+
+To Apply:
+Please submit your resume and cover letter through our careers portal.

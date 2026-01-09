@@ -1,0 +1,137 @@
+[
+  {
+    "skill": "SQL",
+    "resource_name": "SQL for Data Science",
+    "provider": "Coursera",
+    "url": "https://www.coursera.org/learn/sql-for-data-science",
+    "description": "Learn SQL fundamentals for data analysis and querying databases",
+    "difficulty": "beginner",
+    "duration": "4 weeks"
+  },
+  {
+    "skill": "Python",
+    "resource_name": "Python for Everybody",
+    "provider": "Coursera",
+    "url": "https://www.coursera.org/specializations/python",
+    "description": "Comprehensive Python programming course from basics to advanced",
+    "difficulty": "beginner",
+    "duration": "8 weeks"
+  },
+  {
+    "skill": "React",
+    "resource_name": "React - The Complete Guide",
+    "provider": "Udemy",
+    "url": "https://www.udemy.com/course/react-the-complete-guide-incl-redux",
+    "description": "Master React, Hooks, Redux, and React Router",
+    "difficulty": "intermediate",
+    "duration": "10 weeks"
+  },
+  {
+    "skill": "Data Visualization",
+    "resource_name": "Data Visualization with Tableau",
+    "provider": "Coursera",
+    "url": "https://www.coursera.org/specializations/data-visualization",
+    "description": "Create compelling visualizations and dashboards",
+    "difficulty": "beginner",
+    "duration": "5 weeks"
+  },
+  {
+    "skill": "Node.js",
+    "resource_name": "Node.js, Express, MongoDB & More",
+    "provider": "Udemy",
+    "url": "https://www.udemy.com/course/nodejs-the-complete-guide",
+    "description": "Build scalable backend applications with Node.js",
+    "difficulty": "intermediate",
+    "duration": "12 weeks"
+  },
+  {
+    "skill": "Machine Learning",
+    "resource_name": "Machine Learning",
+    "provider": "Coursera",
+    "url": "https://www.coursera.org/learn/machine-learning",
+    "description": "Andrew Ng's famous machine learning course",
+    "difficulty": "intermediate",
+    "duration": "11 weeks"
+  },
+  {
+    "skill": "Docker",
+    "resource_name": "Docker and Kubernetes: The Complete Guide",
+    "provider": "Udemy",
+    "url": "https://www.udemy.com/course/docker-and-kubernetes-the-complete-guide",
+    "description": "Learn containerization with Docker and orchestration with Kubernetes",
+    "difficulty": "intermediate",
+    "duration": "8 weeks"
+  },
+  {
+    "skill": "AWS",
+    "resource_name": "AWS Certified Solutions Architect",
+    "provider": "A Cloud Guru",
+    "url": "https://acloudguru.com/course/aws-certified-solutions-architect-associate-saa-c03",
+    "description": "Prepare for AWS certification and learn cloud architecture",
+    "difficulty": "intermediate",
+    "duration": "10 weeks"
+  },
+  {
+    "skill": "Statistics",
+    "resource_name": "Statistics with R",
+    "provider": "Coursera",
+    "url": "https://www.coursera.org/specializations/statistics",
+    "description": "Learn statistical concepts and analysis using R",
+    "difficulty": "beginner",
+    "duration": "6 weeks"
+  },
+  {
+    "skill": "PostgreSQL",
+    "resource_name": "PostgreSQL for Everybody",
+    "provider": "Coursera",
+    "url": "https://www.coursera.org/specializations/postgresql-for-everybody",
+    "description": "Master PostgreSQL database administration and development",
+    "difficulty": "intermediate",
+    "duration": "7 weeks"
+  },
+  {
+    "skill": "JavaScript",
+    "resource_name": "JavaScript Algorithms and Data Structures",
+    "provider": "freeCodeCamp",
+    "url": "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures",
+    "description": "Free comprehensive JavaScript course with hands-on projects",
+    "difficulty": "beginner",
+    "duration": "6 weeks"
+  },
+  {
+    "skill": "TypeScript",
+    "resource_name": "Understanding TypeScript",
+    "provider": "Udemy",
+    "url": "https://www.udemy.com/course/understanding-typescript",
+    "description": "Learn TypeScript from scratch and build type-safe applications",
+    "difficulty": "intermediate",
+    "duration": "8 weeks"
+  },
+  {
+    "skill": "TensorFlow",
+    "resource_name": "TensorFlow in Practice",
+    "provider": "Coursera",
+    "url": "https://www.coursera.org/specializations/tensorflow-in-practice",
+    "description": "Build and deploy machine learning models with TensorFlow",
+    "difficulty": "advanced",
+    "duration": "12 weeks"
+  },
+  {
+    "skill": "Git",
+    "resource_name": "Version Control with Git",
+    "provider": "Coursera",
+    "url": "https://www.coursera.org/learn/version-control-with-git",
+    "description": "Master Git version control and GitHub workflows",
+    "difficulty": "beginner",
+    "duration": "4 weeks"
+  },
+  {
+    "skill": "MongoDB",
+    "resource_name": "MongoDB University",
+    "provider": "MongoDB",
+    "url": "https://university.mongodb.com",
+    "description": "Official MongoDB courses and certifications",
+    "difficulty": "beginner",
+    "duration": "6 weeks"
+  }
+]

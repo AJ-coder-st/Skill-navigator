@@ -1,0 +1,42 @@
+[
+  {
+    "role": "Data Analyst",
+    "description": "We are looking for a Data Analyst to join our team. The ideal candidate will have experience with SQL, Python, and data visualization tools. You will be responsible for analyzing large datasets, creating reports, and providing insights to stakeholders. Experience with statistics and machine learning is a plus.",
+    "skills": ["SQL", "Python", "Statistics", "Data Visualization", "Excel", "Tableau"]
+  },
+  {
+    "role": "Full Stack Developer",
+    "description": "Join our team as a Full Stack Developer. You'll work on building web applications using React for the frontend and Node.js for the backend. Experience with databases (PostgreSQL or MongoDB) is required. Knowledge of cloud platforms (AWS) and Docker is preferred.",
+    "skills": ["React", "Node.js", "JavaScript", "PostgreSQL", "MongoDB", "AWS", "Docker"]
+  },
+  {
+    "role": "Software Engineer",
+    "description": "We're hiring a Software Engineer to develop scalable applications. Required skills include Python, Java, or C++, along with experience in software design patterns. Knowledge of Git, CI/CD pipelines, and testing frameworks is essential.",
+    "skills": ["Python", "Java", "C++", "Git", "CI/CD", "Testing", "Software Design"]
+  },
+  {
+    "role": "Machine Learning Engineer",
+    "description": "Looking for an ML Engineer to build and deploy machine learning models. You should have strong Python skills, experience with TensorFlow or PyTorch, and knowledge of data preprocessing. Understanding of MLOps and cloud deployment is preferred.",
+    "skills": ["Python", "TensorFlow", "PyTorch", "Machine Learning", "Data Preprocessing", "MLOps", "Cloud"]
+  },
+  {
+    "role": "DevOps Engineer",
+    "description": "DevOps Engineer needed to manage our infrastructure. You'll work with Kubernetes, Docker, AWS, and CI/CD tools. Experience with monitoring tools, infrastructure as code (Terraform), and scripting (Bash/Python) is required.",
+    "skills": ["Kubernetes", "Docker", "AWS", "CI/CD", "Terraform", "Bash", "Python", "Monitoring"]
+  },
+  {
+    "role": "Frontend Developer",
+    "description": "Frontend Developer position focusing on React and modern JavaScript. You'll build responsive UIs using React, TypeScript, and CSS frameworks. Experience with state management (Redux) and testing (Jest) is preferred.",
+    "skills": ["React", "JavaScript", "TypeScript", "CSS", "Redux", "Jest", "HTML"]
+  },
+  {
+    "role": "Backend Developer",
+    "description": "Backend Developer to build RESTful APIs and microservices. Required: Python (Django/Flask) or Node.js, database design (SQL/NoSQL), and API development. Knowledge of message queues (RabbitMQ) and caching (Redis) is a plus.",
+    "skills": ["Python", "Django", "Flask", "Node.js", "REST APIs", "PostgreSQL", "MongoDB", "Redis"]
+  },
+  {
+    "role": "Data Scientist",
+    "description": "Data Scientist role requiring Python, R, statistical analysis, and machine learning. You'll work on predictive modeling, data mining, and communicating insights. Experience with Jupyter notebooks, pandas, and scikit-learn is essential.",
+    "skills": ["Python", "R", "Statistics", "Machine Learning", "Jupyter", "Pandas", "Scikit-learn", "Data Mining"]
+  }
+]

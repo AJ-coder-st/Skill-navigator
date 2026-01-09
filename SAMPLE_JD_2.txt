@@ -1,0 +1,70 @@
+Job Title: Full Stack Developer
+
+Company: StartupHub Inc.
+Location: New York, NY / Hybrid
+Type: Full-time
+
+Job Description:
+
+StartupHub is looking for an experienced Full Stack Developer to join our engineering team. You will be responsible for building and maintaining web applications from frontend to backend, working with modern technologies and best practices.
+
+Key Responsibilities:
+- Develop and maintain responsive web applications using React and Node.js
+- Design and implement RESTful APIs and microservices architecture
+- Build and optimize database schemas using PostgreSQL and MongoDB
+- Collaborate with UI/UX designers to implement user-friendly interfaces
+- Write clean, maintainable, and well-documented code
+- Participate in code reviews and contribute to technical discussions
+- Deploy applications to cloud platforms (AWS preferred)
+- Implement authentication and authorization systems
+- Optimize application performance and scalability
+- Troubleshoot and debug production issues
+
+Required Skills:
+- 3+ years of experience in full-stack web development
+- Strong proficiency in JavaScript (ES6+) and TypeScript
+- Experience with React.js and modern frontend frameworks
+- Backend development experience with Node.js and Express
+- Database design and management (SQL and NoSQL)
+- RESTful API design and development
+- Version control with Git
+- Understanding of software development lifecycle (SDLC)
+- Knowledge of testing frameworks (Jest, Mocha, or similar)
+
+Preferred Skills:
+- Experience with Next.js or similar React frameworks
+- Knowledge of GraphQL
+- Docker and containerization
+- CI/CD pipeline setup (GitHub Actions, Jenkins)
+- Experience with cloud services (AWS, Azure, or GCP)
+- Microservices architecture
+- Redis for caching
+- Message queues (RabbitMQ, Kafka)
+- Experience with Agile/Scrum methodologies
+
+Technical Requirements:
+- Frontend: React, JavaScript/TypeScript, HTML5, CSS3, Tailwind CSS
+- Backend: Node.js, Express.js, REST APIs
+- Databases: PostgreSQL, MongoDB
+- Tools: Git, Docker, AWS
+- Testing: Jest, React Testing Library
+
+Soft Skills:
+- Strong problem-solving abilities
+- Ability to work independently and in a team
+- Excellent communication skills
+- Adaptability and willingness to learn new technologies
+- Attention to detail
+- Time management skills
+
+Education:
+- Bachelor's degree in Computer Science, Software Engineering, or related field
+- Equivalent work experience will be considered
+
+Benefits:
+- Competitive salary
+- Health, dental, and vision insurance
+- 401(k) matching
+- Flexible work schedule
+- Professional development budget
+- Stock options

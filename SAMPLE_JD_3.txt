@@ -1,0 +1,61 @@
+Job Title: Software Engineer (Entry Level)
+
+Company: TechStart Solutions
+Location: Austin, TX
+Type: Full-time, Entry Level
+
+Job Description:
+
+We are looking for an enthusiastic Entry-Level Software Engineer to join our development team. This is a great opportunity for recent graduates or individuals looking to start their career in software development.
+
+Responsibilities:
+- Assist in developing and maintaining web applications
+- Write clean, efficient code under the guidance of senior developers
+- Participate in code reviews and learn best practices
+- Debug and fix bugs in existing applications
+- Collaborate with team members on various projects
+- Learn and apply new technologies and frameworks
+- Write unit tests for code quality assurance
+- Document code and technical processes
+
+Required Qualifications:
+- Bachelor's degree in Computer Science, Software Engineering, or related field
+- Knowledge of at least one programming language (Python, Java, JavaScript, or C++)
+- Understanding of basic software development concepts
+- Familiarity with version control systems (Git)
+- Strong problem-solving skills
+- Eagerness to learn and grow
+- Good communication skills
+- Ability to work in a team environment
+
+Preferred Qualifications:
+- Internship or project experience in software development
+- Knowledge of web development (HTML, CSS, JavaScript)
+- Familiarity with databases (SQL basics)
+- Experience with any framework (React, Django, Spring, etc.)
+- Understanding of object-oriented programming
+- Portfolio of personal projects or GitHub contributions
+
+Technical Skills (Nice to Have):
+- Python or Java
+- JavaScript
+- HTML/CSS
+- Git
+- Basic SQL
+- Any web framework
+
+Soft Skills:
+- Willingness to learn
+- Team player
+- Good communication
+- Problem-solving mindset
+- Time management
+- Adaptability
+
+What We Offer:
+- Mentorship from experienced engineers
+- Training and professional development opportunities
+- Competitive entry-level salary
+- Health benefits
+- Flexible work environment
+- Career growth opportunities

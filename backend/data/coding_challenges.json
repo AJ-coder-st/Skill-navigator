@@ -1,0 +1,42 @@
+[
+  {
+    "skill": "Python",
+    "title": "Data Processing Pipeline",
+    "difficulty": "intermediate",
+    "description": "Build a pipeline that reads CSV data, processes it, and generates a summary report",
+    "requirements": ["Read CSV files", "Data cleaning", "Statistical analysis", "Generate report"],
+    "estimated_time": "4 hours"
+  },
+  {
+    "skill": "SQL",
+    "title": "E-commerce Analytics Query",
+    "difficulty": "beginner",
+    "description": "Write SQL queries to analyze sales data, customer behavior, and product performance",
+    "requirements": ["JOIN operations", "Aggregate functions", "Subqueries", "Window functions"],
+    "estimated_time": "3 hours"
+  },
+  {
+    "skill": "React",
+    "title": "Todo App with State Management",
+    "difficulty": "beginner",
+    "description": "Build a todo application with add, edit, delete, and filter functionality",
+    "requirements": ["Component structure", "State management", "Event handling", "Local storage"],
+    "estimated_time": "5 hours"
+  },
+  {
+    "skill": "Node.js",
+    "title": "REST API for Blog",
+    "difficulty": "intermediate",
+    "description": "Create a RESTful API for a blog with CRUD operations for posts and comments",
+    "requirements": ["Express.js", "Database integration", "Authentication", "Error handling"],
+    "estimated_time": "8 hours"
+  },
+  {
+    "skill": "Machine Learning",
+    "title": "Predictive Model for Sales",
+    "difficulty": "advanced",
+    "description": "Build a machine learning model to predict sales based on historical data",
+    "requirements": ["Data preprocessing", "Feature engineering", "Model training", "Evaluation"],
+    "estimated_time": "12 hours"
+  }
+]
