@@ -48,3 +48,7 @@ logs/
 # Build outputs
 *.pyc
 .cache/
+
+# Documentation files (keep locally, exclude from git)
+*.md
+!README.md
