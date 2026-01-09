@@ -1,381 +1,242 @@
 # Career Readiness Mentor & Skill-Gap Navigator
 
-An AI-powered system that helps students map job descriptions to their current skills, identify skill gaps, and generate realistic, milestone-based upskilling roadmaps with practice tasks and progress tracking.
+An AI-powered platform that helps students and professionals identify skill gaps, analyze job requirements, and generate personalized learning roadmaps.
 
-## 🎯 Project Overview
+## 🎯 Features
 
-This hackathon-ready project provides an agentic AI system that acts as a **reasoning and planning engine** (not a chatbot) to:
+### Core Functionality
+- **Job Description Analysis**: AI-powered parsing of job descriptions to extract required skills
+- **Profile Analysis**: Normalize and analyze user skills and experience
+- **Skill Gap Analysis**: Compare job requirements with user profile to identify gaps
+- **Learning Roadmap**: Generate personalized 6-8 week learning plans
+- **Practice Materials**: Get coding challenges, interview prep, and project ideas
+- **Progress Tracking**: Monitor learning progress and get AI-powered recommendations
 
-1. Parse unstructured job descriptions into structured skill requirements
-2. Compare extracted skills with student profiles
-3. Reason about skill gaps and explain why each skill matters
-4. Generate realistic 6–8 week learning roadmaps
-5. Generate tailored practice materials (coding challenges, behavioral interview prompts, mini-projects)
-6. Reflect on progress and update recommendations using memory
+### User Features
+- **User Authentication**: Register and login with email/password
+- **Email Notifications**: Automatic emails for analysis reports, roadmaps, and milestones
+- **Premium UI**: Beautiful, structured AI response panels
+- **Responsive Design**: Works on desktop, tablet, and mobile
 
-## 🏗️ Architecture
+## 🛠️ Tech Stack
 
-### Tech Stack
+### Backend
+- **Framework**: FastAPI
+- **Language**: Python 3.8+
+- **Database**: MongoDB (MongoDB Atlas)
+- **AI/ML**: 
+  - Google Gemini API (LLM)
+  - Sentence Transformers (Embeddings for RAG)
+- **Authentication**: JWT tokens, bcrypt password hashing
+- **Email**: SMTP (aiosmtplib)
 
-**Frontend:**
-- React 18 with Vite
-- Tailwind CSS for styling
-- Recharts for data visualization
-- React Router for navigation
-
-**Backend:**
-- Python 3.9+
-- FastAPI for REST APIs
-- MongoDB for data storage
-- Motor (async MongoDB driver)
-
-**AI/ML:**
-- OpenAI GPT-4/GPT-3.5 (or compatible API)
-- sentence-transformers (all-MiniLM-L6-v2) for embeddings
-- RAG (Retrieval-Augmented Generation) for course recommendations
-
-### Agentic Architecture
-
-The system is designed as multiple logical agents:
-
-1. **JD Parser Agent** - Extracts structured skills from job descriptions
-2. **Profile Analyzer Agent** - Normalizes and categorizes student skills
-3. **Skill Gap Reasoning Agent** - Identifies missing/partial/strong skills with explanations
-4. **Roadmap Planner Agent** - Generates week-by-week learning roadmaps
-5. **Practice Generator Agent** - Creates coding challenges, behavioral questions, and mini-projects
-6. **Reflection Agent** - Analyzes progress and updates recommendations
-
-### RAG Implementation
-
-- Stores job description samples and course catalog embeddings
-- Retrieves relevant documents based on role/skills using semantic search
-- Passes retrieved content to LLM for grounded responses
-- Cites sources in output (no hallucinated courses)
+### Frontend
+- **Framework**: React 18
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Charts**: Recharts
+- **Icons**: Lucide React
+- **Routing**: React Router DOM
 
 ## 📁 Project Structure
 
 ```
-.
+Career Readiness Mentor & Skill-Gap Navigator/
 ├── backend/
-│   ├── agents/              # AI agent implementations
-│   │   ├── jd_parser.py
-│   │   ├── profile_analyzer.py
-│   │   ├── skill_gap_analyzer.py
-│   │   ├── roadmap_planner.py
-│   │   ├── practice_generator.py
-│   │   └── reflection_agent.py
-│   ├── api/
-│   │   └── routes.py        # FastAPI endpoints
-│   ├── core/
-│   │   ├── config.py        # Configuration settings
-│   │   ├── database.py      # MongoDB connection
-│   │   ├── llm_service.py   # LLM integration
-│   │   └── rag_service.py   # RAG implementation
-│   ├── data/
-│   │   ├── sample_job_descriptions.json
-│   │   ├── sample_courses.json
-│   │   └── coding_challenges.json
-│   ├── main.py              # FastAPI app entry point
-│   └── requirements.txt
-│
+│   ├── agents/          # AI agents (JD parser, profile analyzer, etc.)
+│   ├── api/             # API routes (auth, analysis endpoints)
+│   ├── core/            # Core services (LLM, RAG, database, auth, email)
+│   ├── data/            # Sample data (JDs, courses, challenges)
+│   ├── main.py          # FastAPI application entry point
+│   └── requirements.txt # Python dependencies
 ├── frontend/
 │   ├── src/
-│   │   ├── components/      # React components
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── Analysis.jsx
-│   │   │   ├── Roadmap.jsx
-│   │   │   ├── Practice.jsx
-│   │   │   ├── Progress.jsx
-│   │   │   └── SkillGapChart.jsx
-│   │   ├── services/
-│   │   │   └── api.js       # API client
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── package.json
-│   └── vite.config.js
-│
-└── README.md
+│   │   ├── components/  # React components
+│   │   ├── services/    # API service layer
+│   │   └── App.jsx      # Main app component
+│   └── package.json     # Node dependencies
+├── manage_project.bat   # Windows project manager
+└── README.md            # This file
 ```
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-
-- Python 3.9 or higher
-- Node.js 18 or higher
-- MongoDB (local or cloud instance)
-- Google Gemini API key (get from https://makersuite.google.com/app/apikey)
+- Python 3.8+ (3.11 recommended)
+- Node.js 18+
+- MongoDB Atlas account (or local MongoDB)
+- Google Gemini API key
 
 ### Backend Setup
 
-1. Navigate to the backend directory:
-```bash
-cd backend
-```
+1. **Navigate to backend directory**:
+   ```powershell
+   cd backend
+   ```
 
-2. Create a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+2. **Create virtual environment**:
+   ```powershell
+   python -m venv venv
+   .\venv\Scripts\Activate.ps1
+   ```
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+3. **Install dependencies**:
+   ```powershell
+   pip install -r requirements.txt
+   ```
 
-4. Create a `.env` file:
-```bash
-GEMINI_API_KEY=your_gemini_api_key_here
-MONGODB_URI=mongodb://localhost:27017
-DATABASE_NAME=career_mentor
-PORT=8000
-```
+4. **Configure environment variables**:
+   Create `backend/.env`:
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key
+   MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/
+   DATABASE_NAME=career_mentor
+   PORT=8000
+   JWT_SECRET_KEY=your-random-secret-key
+   SMTP_HOST=smtp.gmail.com
+   SMTP_PORT=587
+   SMTP_USER=your-email@gmail.com
+   SMTP_PASSWORD=your-app-password
+   FROM_EMAIL=your-email@gmail.com
+   ```
 
-   Get your Gemini API key from: https://makersuite.google.com/app/apikey
-
-5. Start MongoDB (if running locally):
-```bash
-# On macOS/Linux with Homebrew:
-brew services start mongodb-community
-
-# On Windows, start MongoDB service or run:
-mongod
-```
-
-6. Run the FastAPI server:
-```bash
-python main.py
-```
-
-The API will be available at `http://localhost:8000`
+5. **Start backend server**:
+   ```powershell
+   python main.py
+   ```
 
 ### Frontend Setup
 
-1. Navigate to the frontend directory:
-```bash
-cd frontend
-```
+1. **Navigate to frontend directory**:
+   ```powershell
+   cd frontend
+   ```
 
-2. Install dependencies:
-```bash
-npm install
-```
+2. **Install dependencies**:
+   ```powershell
+   npm install
+   ```
 
-3. Start the development server:
-```bash
-npm run dev
-```
+3. **Start development server**:
+   ```powershell
+   npm run dev
+   ```
 
-The frontend will be available at `http://localhost:5173`
+### Using the Project Manager (Windows)
 
-## 📡 API Endpoints
+Run `manage_project.bat` for an interactive menu to:
+- Start/stop backend and frontend servers
+- Restart servers
+- Check server status
 
-### POST `/api/analyze-jd`
-Analyzes a job description and extracts structured skill requirements.
+## 📧 Email Configuration
 
-**Request:**
-```json
-{
-  "job_description": "Full job description text..."
-}
-```
+### Gmail Setup
+1. Enable 2-Factor Authentication
+2. Generate App Password:
+   - Google Account → Security → 2-Step Verification → App passwords
+   - Use the generated password in `SMTP_PASSWORD`
 
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "role": "Data Analyst",
-    "required_skills": ["SQL", "Python", "Statistics"],
-    "preferred_skills": ["Machine Learning"],
-    "experience_level": "mid",
-    "reasoning": "..."
-  }
-}
-```
+### Email Features
+- **Welcome Email**: Sent on registration
+- **Analysis Reports**: Sent after skill gap analysis
+- **Learning Roadmaps**: Sent after roadmap generation
+- **Milestone Notifications**: Ready for implementation
 
-### POST `/api/analyze-profile`
-Analyzes and normalizes a student profile.
+## 🔐 Authentication
 
-**Request:**
-```json
-{
-  "degree": "B.Tech IT",
-  "skills": ["Python", "JavaScript"],
-  "experience_level": "beginner",
-  "projects": ["Todo App"],
-  "certifications": []
-}
-```
+### Endpoints
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/me` - Get current user info
 
-### POST `/api/skill-gap`
-Analyzes skill gaps between job requirements and student profile.
+### Features
+- JWT token-based authentication (30-day expiry)
+- Password hashing with bcrypt
+- Email validation
+- Password length validation (6-72 characters)
 
-### POST `/api/generate-roadmap`
-Generates a learning roadmap based on skill gaps.
+## 📊 API Endpoints
 
-### POST `/api/generate-practice`
-Generates practice materials (coding challenges, interview questions, projects).
+### Analysis
+- `POST /api/analyze-jd` - Analyze job description
+- `POST /api/analyze-profile` - Analyze user profile
+- `POST /api/skill-gap` - Analyze skill gaps
 
-### POST `/api/update-progress`
-Reflects on student progress and provides updated recommendations.
-
-### GET `/api/dashboard-summary`
-Returns dashboard statistics.
-
-## 🎨 Frontend Features
+### Roadmap & Practice
+- `POST /api/generate-roadmap` - Generate learning roadmap
+- `POST /api/generate-practice` - Generate practice materials
+- `POST /api/update-progress` - Update learning progress
 
 ### Dashboard
-- System status overview
-- Quick statistics
-- Getting started guide
+- `GET /api/dashboard-summary` - Get dashboard statistics
 
-### Analysis Page
-- Job description input and analysis
-- Student profile input and normalization
-- Skill gap visualization with charts
-- AI reasoning explanations
+## 🎨 UI Features
 
-### Roadmap Page
-- Week-by-week learning roadmap
-- Milestones and checkpoints
-- Learning objectives
-- Practice tasks per week
-
-### Practice Page
-- Coding challenges (beginner/intermediate/advanced)
-- Behavioral interview questions
-- Mini-project ideas
-- Difficulty levels and time estimates
-
-### Progress Page
-- Progress tracking interface
-- AI-powered reflection and recommendations
-- Updated roadmap suggestions
-- Encouragement and next steps
-
-## 🔄 User Workflow
-
-The application follows a sequential workflow:
-
-1. **Analysis** → Paste job description and enter your profile
-   - System extracts skills from JD
-   - Normalizes your profile
-   - Identifies skill gaps
-
-2. **Roadmap** → Generate learning roadmap
-   - Set timeline (4-12 weeks)
-   - Get week-by-week plan with milestones
-
-3. **Practice** → Get practice materials
-   - Coding challenges
-   - Interview questions
-   - Mini-projects
-
-4. **Progress** → Track and reflect
-   - Update completed milestones
-   - Get AI-powered reflection
-   - Receive updated recommendations
-
-**Note**: Data flows between pages via localStorage. Complete Analysis before Roadmap, etc.
+- **Premium AI Response Panels**: Structured, easy-to-scan results
+- **Skill Cards**: Color-coded (strong/partial/missing)
+- **Match Score**: Visual progress bar
+- **Loading Skeletons**: Professional loading states
+- **Accordion Sections**: Collapsible long content
+- **Responsive Design**: Mobile-friendly
 
 ## 🔧 Configuration
 
-### LLM Model Selection
+### Backend Configuration
+Edit `backend/core/config.py` or use environment variables:
+- `LLM_MODEL`: Gemini model (default: gemini-1.5-flash)
+- `EMBEDDING_MODEL`: Sentence transformer model
+- `TOP_K_RESULTS`: Number of RAG results
 
-The system uses Google Gemini Pro by default. To use a different Gemini model:
+### Frontend Configuration
+Edit `frontend/src/services/api.js`:
+- `VITE_API_URL`: Backend API URL (default: http://localhost:8000/api)
 
-1. Update `backend/core/config.py`:
-```python
-LLM_MODEL = "gemini-pro"  # or "gemini-pro-vision" for vision tasks
-```
+## 📝 Sample Data
 
-2. For other LLM providers, modify `backend/core/llm_service.py` to use your preferred API.
-
-### Database
-
-The system uses MongoDB by default. Sample data is automatically loaded on first run if collections are empty.
-
-To use SQLite instead:
-1. Modify `backend/core/database.py` to use SQLite
-2. Update connection logic accordingly
-
-## 📊 Data Sources
-
-### Sample Datasets
-
-The project includes sample data in `backend/data/`:
-
-- **sample_job_descriptions.json** - 8 sample job descriptions across different roles
-- **sample_courses.json** - 15 curated course recommendations from public sources
-- **coding_challenges.json** - Template coding challenges
-
-### Data Ethics
-
-- ✅ Uses only public or synthetic data
-- ✅ No scraping of restricted platforms
-- ✅ No PII storage
-- ✅ No fake credentials or certifications
-- ✅ All course recommendations are from legitimate public sources
-
-## 🧪 Evaluation Criteria
-
-The system is designed to meet hackathon evaluation criteria:
-
-- **Accuracy**: Structured skill extraction, realistic gap analysis
-- **Feasibility**: Realistic timelines (no "learn ML in 1 week")
-- **Explainability**: Clear AI reasoning for all decisions
-- **User Experience**: Clean, intuitive interface with clear workflows
-
-## 🚨 Important Notes
-
-1. **API Key Required**: You must provide a valid OpenAI API key in the `.env` file
-2. **MongoDB**: Ensure MongoDB is running before starting the backend
-3. **Realistic Timelines**: The system enforces realistic learning timelines
-4. **No Hallucinations**: RAG ensures course recommendations are grounded in real data
+Sample job descriptions and courses are included in:
+- `backend/data/sample_job_descriptions.json`
+- `backend/data/sample_courses.json`
+- `SAMPLE_JD.txt`, `SAMPLE_JD_2.txt`, `SAMPLE_JD_3.txt`
 
 ## 🐛 Troubleshooting
 
 ### Backend Issues
-
-**Error: "Gemini API key not configured"**
-- Ensure `.env` file exists with `GEMINI_API_KEY` set
-- Get your API key from: https://makersuite.google.com/app/apikey
-
-**Error: "Failed to connect to MongoDB"**
-- Check MongoDB is running: `mongosh` or check service status
-- Verify `MONGODB_URI` in `.env` is correct
+- **Import Errors**: Ensure all dependencies are installed
+- **MongoDB Connection**: Check `MONGODB_URI` in `.env`
+- **Gemini API Errors**: Verify `GEMINI_API_KEY` is correct
+- **Python 3.8 Warnings**: Non-fatal, upgrade to Python 3.11 to remove
 
 ### Frontend Issues
+- **White Screen**: Check browser console for errors
+- **API Connection**: Verify backend is running on port 8000
+- **Build Errors**: Run `npm install` to ensure dependencies are installed
 
-**Error: "Network Error" or CORS issues**
-- Ensure backend is running on port 8000
-- Check `vite.config.js` proxy configuration
+## 📚 Documentation
 
-**Components not loading data**
-- Check browser console for errors
-- Verify API endpoints are accessible
-- Check localStorage for saved data
+- `ARCHITECTURE.md` - System architecture details
+- `AUTHENTICATION_SETUP.md` - Auth and email setup guide
+- `FINAL_PRODUCTION_FIX.md` - Production fixes applied
+- `FRONTEND_UI_REDESIGN.md` - UI improvements documentation
 
-## 📝 License
+## 🎯 Future Enhancements
 
-This project is created for hackathon purposes. Use responsibly and in accordance with OpenAI's usage policies.
+- Email verification
+- Password reset functionality
+- Social login (Google, GitHub)
+- Advanced progress analytics
+- Export reports as PDF
+- Dark mode
+- Multi-language support
 
-## 🤝 Contributing
+## 📄 License
 
-This is a hackathon project. For improvements:
-1. Fork the repository
-2. Create a feature branch
-3. Submit a pull request
+This project is part of a hackathon submission.
 
-## 📧 Support
+## 👥 Contributors
 
-For issues or questions:
-- Check the troubleshooting section
-- Review API documentation at `http://localhost:8000/docs` (FastAPI auto-generated docs)
-- Check browser console and backend logs
+Built for Career Readiness and Skill Development.
 
 ---
 
-**Built for Hackathon 2024** | Career Readiness Mentor & Skill-Gap Navigator
+**Status**: ✅ Production Ready
