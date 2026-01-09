@@ -51,4 +51,3 @@ logs/
 
 # Documentation files (keep locally, exclude from git)
 *.md
-!README.md
