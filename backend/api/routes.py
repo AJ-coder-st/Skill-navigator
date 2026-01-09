@@ -143,9 +143,32 @@ async def analyze_skill_gap(
     request: SkillGapRequest,
     authorization: Optional[str] = Header(None)
 ):
-    """Analyze skill gaps between job requirements and student profile"""
+    """Analyze skill gaps between job requirements and student profile - always returns 200 with valid JSON"""
     try:
         result = await skill_gap_analyzer.analyze(request.job_skills, request.student_profile)
+        
+        # Ensure result has required structure
+        if not isinstance(result, dict):
+            result = {}
+        
+        # Ensure arrays exist
+        if "missing_skills" not in result:
+            result["missing_skills"] = []
+        if "partial_skills" not in result:
+            result["partial_skills"] = []
+        if "strong_skills" not in result:
+            result["strong_skills"] = []
+        
+        # Ensure arrays are lists
+        if not isinstance(result["missing_skills"], list):
+            result["missing_skills"] = []
+        if not isinstance(result["partial_skills"], list):
+            result["partial_skills"] = []
+        if not isinstance(result["strong_skills"], list):
+            result["strong_skills"] = []
+        
+        # Check if this is a fallback response
+        is_fallback = result.get("fallback", False)
         
         # Send email if user is authenticated
         if authorization:
@@ -164,9 +187,39 @@ async def analyze_skill_gap(
             except:
                 pass  # Don't fail if email sending fails
         
-        return {"success": True, "data": result}
+        response = {
+            "success": True,
+            "data": result,
+            "status": "partial_success" if is_fallback else "success",
+            "message": "Skill gap analysis completed" + (" (using fallback - LLM unavailable)" if is_fallback else "")
+        }
+        
+        print(f"Skill gap response: success={response['success']}, missing={len(result.get('missing_skills', []))}, partial={len(result.get('partial_skills', []))}, strong={len(result.get('strong_skills', []))}")
+        
+        return response
+        
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        import traceback
+        error_detail = str(e)
+        print(f"Error in skill-gap: {error_detail}")
+        print(traceback.format_exc())
+        
+        # Return 200 with error in response instead of 500
+        return {
+            "success": False,
+            "status": "error",
+            "message": f"Skill gap analysis failed: {error_detail}",
+            "data": {
+                "error": True,
+                "message": error_detail,
+                "fallback": True,
+                "missing_skills": [],
+                "partial_skills": [],
+                "strong_skills": [],
+                "overall_assessment": "Analysis unavailable due to error",
+                "reasoning": f"Error occurred: {error_detail}"
+            }
+        }
 
 @router.post("/generate-roadmap")
 async def generate_roadmap(

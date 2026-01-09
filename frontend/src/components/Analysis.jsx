@@ -91,11 +91,32 @@ function Analysis() {
     setError(null)
     try {
       const result = await analyzeSkillGap(jdResult, profileResult)
+      console.log('Skill gap analysis result:', result)
+      
+      // Handle both old and new response formats
       const data = result.data || result
+      
+      // Validate data structure
+      if (!data || (typeof data === 'object' && data.error)) {
+        setError(data?.message || 'Skill gap analysis failed. Please try again.')
+        return
+      }
+      
+      // Ensure required fields exist
+      if (!data.missing_skills) data.missing_skills = []
+      if (!data.partial_skills) data.partial_skills = []
+      if (!data.strong_skills) data.strong_skills = []
+      
       setSkillGapResult(data)
       localStorage.setItem('skillGaps', JSON.stringify(data))
+      
+      // Show warning if fallback was used
+      if (result.status === 'partial_success' || data.fallback) {
+        setError('Analysis completed using basic matching (AI service unavailable). For detailed insights, configure the AI service.')
+      }
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to analyze skill gaps')
+      console.error('Skill gap analysis error:', err)
+      setError(err.response?.data?.message || err.response?.data?.detail || 'Failed to analyze skill gaps')
     } finally {
       setLoading(prev => ({ ...prev, gap: false }))
     }
@@ -365,9 +386,13 @@ function Analysis() {
               </AccordionSection>
             )}
 
-            {jdResult.reasoning && (
-              <AccordionSection title="AI Reasoning">
-                <p className="text-sm text-gray-700 leading-relaxed">{jdResult.reasoning}</p>
+            {(jdResult.reasoning || jdResult.fallback) && (
+              <AccordionSection title={jdResult.fallback ? "⚠️ Analysis Explanation (Fallback Mode)" : "🧠 AI Reasoning"} defaultOpen={jdResult.fallback || false}>
+                <div className="prose prose-sm max-w-none">
+                  <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+                    {jdResult.reasoning || "No detailed explanation available."}
+                  </p>
+                </div>
               </AccordionSection>
             )}
           </div>
@@ -445,9 +470,13 @@ function Analysis() {
               />
             )}
 
-            {profileResult.reasoning && (
-              <AccordionSection title="AI Analysis Explanation">
-                <p className="text-sm text-gray-700 leading-relaxed">{profileResult.reasoning}</p>
+            {(profileResult.reasoning || profileResult.fallback) && (
+              <AccordionSection title={profileResult.fallback ? "⚠️ Analysis Explanation (Fallback Mode)" : "🧠 AI Analysis Explanation"} defaultOpen={profileResult.fallback || false}>
+                <div className="prose prose-sm max-w-none">
+                  <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+                    {profileResult.reasoning || "No detailed explanation available."}
+                  </p>
+                </div>
               </AccordionSection>
             )}
           </div>
@@ -500,86 +529,108 @@ function Analysis() {
               />
 
               {/* Chart */}
-              {skillGapResult && (
+              {skillGapResult && (skillGapResult.missing_skills || skillGapResult.partial_skills || skillGapResult.strong_skills) && (
                 <div className="bg-gray-50 rounded-lg p-4 border-2 border-gray-200">
                   <SkillGapChart data={skillGapResult} />
                 </div>
               )}
 
               {/* Skills Breakdown */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                {/* Missing Skills */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 mb-3">
-                    <AlertTriangle className="h-6 w-6 text-red-600" />
-                    <h3 className="text-lg font-bold text-gray-900">
-                      Missing Skills
-                    </h3>
-                    <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold">
-                      {skillGapResult.missing_skills?.length || 0}
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    {skillGapResult.missing_skills?.slice(0, 8).map((item, idx) => (
-                      <SkillCard
-                        key={idx}
-                        skill={item.skill || item}
-                        level="missing"
-                        importance={item.importance}
-                        explanation={item.explanation}
-                      />
-                    ))}
-                  </div>
-                </div>
+              {(skillGapResult.missing_skills?.length > 0 || skillGapResult.partial_skills?.length > 0 || skillGapResult.strong_skills?.length > 0) && (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  {/* Missing Skills */}
+                  {skillGapResult.missing_skills && skillGapResult.missing_skills.length > 0 && (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 mb-3">
+                        <AlertTriangle className="h-6 w-6 text-red-600" />
+                        <h3 className="text-lg font-bold text-gray-900">
+                          Missing Skills
+                        </h3>
+                        <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold">
+                          {skillGapResult.missing_skills.length}
+                        </span>
+                      </div>
+                      <div className="space-y-2">
+                        {skillGapResult.missing_skills.slice(0, 8).map((item, idx) => (
+                          <SkillCard
+                            key={idx}
+                            skill={typeof item === 'string' ? item : (item.skill || 'Unknown')}
+                            level="missing"
+                            importance={item.importance || item.explanation || 'Required for this role'}
+                            explanation={item.explanation || item.importance || ''}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-                {/* Partial Skills */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 mb-3">
-                    <AlertCircle className="h-6 w-6 text-yellow-600" />
-                    <h3 className="text-lg font-bold text-gray-900">
-                      Needs Improvement
-                    </h3>
-                    <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold">
-                      {skillGapResult.partial_skills?.length || 0}
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    {skillGapResult.partial_skills?.slice(0, 8).map((item, idx) => (
-                      <SkillCard
-                        key={idx}
-                        skill={item.skill || item}
-                        level="partial"
-                        importance={item.importance}
-                        explanation={item.explanation}
-                      />
-                    ))}
-                  </div>
-                </div>
+                  {/* Partial Skills */}
+                  {skillGapResult.partial_skills && skillGapResult.partial_skills.length > 0 && (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 mb-3">
+                        <AlertCircle className="h-6 w-6 text-yellow-600" />
+                        <h3 className="text-lg font-bold text-gray-900">
+                          Needs Improvement
+                        </h3>
+                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold">
+                          {skillGapResult.partial_skills.length}
+                        </span>
+                      </div>
+                      <div className="space-y-2">
+                        {skillGapResult.partial_skills.slice(0, 8).map((item, idx) => (
+                          <SkillCard
+                            key={idx}
+                            skill={typeof item === 'string' ? item : (item.skill || 'Unknown')}
+                            level="partial"
+                            importance={item.gap_analysis || item.importance || 'Needs improvement'}
+                            explanation={item.explanation || item.gap_analysis || ''}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-                {/* Strong Skills */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 mb-3">
-                    <CheckCircle className="h-6 w-6 text-green-600" />
-                    <h3 className="text-lg font-bold text-gray-900">
-                      Strong Skills
-                    </h3>
-                    <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold">
-                      {skillGapResult.strong_skills?.length || 0}
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    {skillGapResult.strong_skills?.slice(0, 8).map((item, idx) => (
-                      <SkillCard
-                        key={idx}
-                        skill={item.skill || item}
-                        level="strong"
-                        importance={item.importance}
-                        explanation={item.explanation}
-                      />
-                    ))}
+                  {/* Strong Skills */}
+                  {skillGapResult.strong_skills && skillGapResult.strong_skills.length > 0 && (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 mb-3">
+                        <CheckCircle className="h-6 w-6 text-green-600" />
+                        <h3 className="text-lg font-bold text-gray-900">
+                          Strong Skills
+                        </h3>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold">
+                          {skillGapResult.strong_skills.length}
+                        </span>
+                      </div>
+                      <div className="space-y-2">
+                        {skillGapResult.strong_skills.slice(0, 8).map((item, idx) => (
+                          <SkillCard
+                            key={idx}
+                            skill={typeof item === 'string' ? item : (item.skill || 'Unknown')}
+                            level="strong"
+                            importance={item.suggestion || item.importance || 'You have this skill'}
+                            explanation={item.explanation || item.suggestion || ''}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Show message if no skills found */}
+              {(!skillGapResult.missing_skills || skillGapResult.missing_skills.length === 0) &&
+               (!skillGapResult.partial_skills || skillGapResult.partial_skills.length === 0) &&
+               (!skillGapResult.strong_skills || skillGapResult.strong_skills.length === 0) && (
+                <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4">
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="h-5 w-5 text-yellow-600" />
+                    <p className="text-yellow-800">
+                      No skill gaps identified. This might indicate that the analysis data is incomplete. Please try analyzing again.
+                    </p>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* AI Recommendations */}
               {skillGapResult.recommendations && skillGapResult.recommendations.length > 0 && (
@@ -603,11 +654,14 @@ function Analysis() {
               )}
 
               {/* AI Reasoning */}
-              {skillGapResult.reasoning && (
-                <AccordionSection title="🧠 AI Analysis Explanation" defaultOpen={false}>
+              {(skillGapResult.reasoning || skillGapResult.fallback) && (
+                <AccordionSection 
+                  title={skillGapResult.fallback ? "⚠️ Analysis Explanation (Fallback Mode)" : "🧠 AI Analysis Explanation"} 
+                  defaultOpen={skillGapResult.fallback || false}
+                >
                   <div className="prose prose-sm max-w-none">
                     <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                      {skillGapResult.reasoning}
+                      {skillGapResult.reasoning || skillGapResult.overall_assessment || "No detailed explanation available."}
                     </p>
                   </div>
                 </AccordionSection>

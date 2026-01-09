@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 import uvicorn
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
+from pathlib import Path
 import os
 
 from api.routes import router
@@ -16,6 +17,11 @@ from api.auth import router as auth_router
 from core.config import settings
 from core.database import connect_to_mongo, close_mongo_connection, init_database
 
+# Load .env from backend directory explicitly
+backend_dir = Path(__file__).parent
+env_path = backend_dir / ".env"
+load_dotenv(dotenv_path=env_path)
+# Also try loading from current directory as fallback
 load_dotenv()
 
 @asynccontextmanager

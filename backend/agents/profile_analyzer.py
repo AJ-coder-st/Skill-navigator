@@ -61,13 +61,30 @@ Return a JSON object with normalized skills:
             
             # Check if LLM returned an error
             if isinstance(result, dict) and result.get("error"):
-                # Return fallback analysis
-                return self._generate_fallback_analysis(profile)
+                error_msg = result.get("message", "Unknown error")
+                print(f"LLM returned error in profile analyzer: {error_msg}")
+                # Only use fallback if API key is missing or invalid
+                if "API key" in error_msg or "authentication" in error_msg.lower():
+                    return self._generate_fallback_analysis(profile)
+                # For other errors, still try to return partial result
+                raise ValueError(error_msg)
             
+            # Validate that we got a proper result with reasoning
+            if not isinstance(result, dict):
+                raise ValueError("LLM returned invalid result format")
+            
+            # Ensure reasoning field exists
+            if "reasoning" not in result or not result.get("reasoning"):
+                print("Warning: LLM response missing 'reasoning' field, adding default")
+                result["reasoning"] = "AI analysis completed successfully. Your skills have been normalized and categorized based on industry standards."
+            
+            print(f"Profile Analyzer: Successfully generated analysis")
             return result
         except Exception as e:
             # If LLM fails completely, return fallback
             print(f"LLM service error in profile analyzer: {str(e)}")
+            import traceback
+            print(traceback.format_exc())
             return self._generate_fallback_analysis(profile)
     
     def _generate_fallback_analysis(self, profile: Dict[str, Any]) -> Dict[str, Any]:
@@ -99,12 +116,31 @@ Return a JSON object with normalized skills:
             else:
                 normalized["tools"].append(skill)
         
+        # Generate a more detailed reasoning
+        total_normalized = sum(len(v) for v in normalized.values())
+        reasoning = f"""This analysis was generated using basic keyword matching (AI service temporarily unavailable).
+
+Profile Summary:
+- Experience Level: {experience_level}
+- Total Skills Provided: {len(skills)}
+- Skills Categorized: {total_normalized}
+
+Skill Categories:
+- Programming Languages: {len(normalized['programming_languages'])} skills
+- Frameworks: {len(normalized['frameworks'])} skills
+- Tools: {len(normalized['tools'])} skills
+- Databases: {len(normalized['databases'])} skills
+
+Your identified strengths: {', '.join(skills[:5]) if skills else 'None specified'}
+
+For a more detailed analysis with better skill normalization, categorization, and personalized insights, please ensure the AI service is properly configured with a valid API key."""
+        
         return {
             "normalized_skills": normalized,
             "experience_level": experience_level,
             "skill_summary": f"Profile with {len(skills)} skills at {experience_level} level",
             "strengths": skills[:3] if skills else [],
-            "reasoning": "Fallback analysis generated (LLM temporarily unavailable)",
+            "reasoning": reasoning,
             "fallback": True
         }
 

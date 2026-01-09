@@ -52,3 +52,14 @@ logs/
 # Documentation files (keep locally, exclude from git)
 *.md
 !README.md
+
+# Scripts (keep locally, exclude from git)
+*.bat
+*.ps1
+*.sh
+
+# Sample files (keep only SAMPLE_JD files)
+SAMPLE_JD*.txt
+!SAMPLE_JD.txt
+!SAMPLE_JD_2.txt
+!SAMPLE_JD_3.txt

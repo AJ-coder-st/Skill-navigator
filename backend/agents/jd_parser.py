@@ -66,13 +66,30 @@ Return a JSON object with the following structure:
             
             # Check if LLM returned an error
             if isinstance(result, dict) and result.get("error"):
-                # Return fallback analysis
-                return self._generate_fallback_parse(job_description, similar_jds)
+                error_msg = result.get("message", "Unknown error")
+                print(f"LLM returned error in JD parser: {error_msg}")
+                # Only use fallback if API key is missing or invalid
+                if "API key" in error_msg or "authentication" in error_msg.lower():
+                    return self._generate_fallback_parse(job_description, similar_jds)
+                # For other errors, still try to return partial result
+                raise ValueError(error_msg)
             
+            # Validate that we got a proper result with reasoning
+            if not isinstance(result, dict):
+                raise ValueError("LLM returned invalid result format")
+            
+            # Ensure reasoning field exists
+            if "reasoning" not in result or not result.get("reasoning"):
+                print("Warning: LLM response missing 'reasoning' field, adding default")
+                result["reasoning"] = "AI analysis completed successfully. Skills were extracted based on the job description requirements and industry standards."
+            
+            print(f"JD Parser: Successfully generated analysis with {len(result.get('required_skills', []))} required skills")
             return result
         except Exception as e:
             # If LLM fails completely, return fallback
             print(f"LLM service error in JD parser: {str(e)}")
+            import traceback
+            print(traceback.format_exc())
             return self._generate_fallback_parse(job_description, similar_jds)
     
     def _generate_fallback_parse(self, job_description: str, similar_jds: List[Dict]) -> Dict[str, Any]:
@@ -103,6 +120,18 @@ Return a JSON object with the following structure:
         elif any(word in jd_lower for word in ["senior", "lead", "principal", "architect"]):
             experience_level = "senior"
         
+        # Generate a more detailed reasoning
+        reasoning = f"""This analysis was generated using keyword matching (AI service temporarily unavailable).
+
+Role identified: {role}
+Experience level: {experience_level}
+Skills found: {len(found_skills)} technical skills detected
+
+The following skills were identified from the job description:
+{', '.join(found_skills[:10]) if found_skills else 'No specific skills detected'}
+
+For a more detailed analysis with better skill extraction, categorization, and insights, please ensure the AI service is properly configured with a valid API key."""
+        
         return {
             "role": role,
             "required_skills": found_skills[:10],
@@ -111,7 +140,7 @@ Return a JSON object with the following structure:
             "experience_level": experience_level,
             "education_requirements": "Bachelor's degree or equivalent",
             "key_responsibilities": ["See job description for details"],
-            "reasoning": "Fallback analysis generated (LLM temporarily unavailable)",
+            "reasoning": reasoning,
             "fallback": True
         }
 

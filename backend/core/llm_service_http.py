@@ -25,6 +25,10 @@ class LLMServiceHTTP:
         
         if not self.api_key:
             print("Warning: GEMINI_API_KEY not set in .env")
+            print(f"Debug: Tried to load from {os.path.abspath('.env')}")
+            print(f"Debug: Current working directory: {os.getcwd()}")
+        else:
+            print(f"Info: GEMINI_API_KEY loaded successfully (length: {len(self.api_key)})")
     
     async def _discover_models(self) -> List[str]:
         """Dynamically discover available Gemini models"""
@@ -200,12 +204,15 @@ class LLMServiceHTTP:
         """Generate JSON response from LLM with robust error handling"""
         json_prompt = f"""{prompt}
 
-IMPORTANT: Respond with ONLY valid JSON. Do not include any markdown code blocks, explanations, or additional text. Return pure JSON that can be parsed directly."""
+IMPORTANT: Respond with ONLY valid JSON. Do not include any markdown code blocks, explanations, or additional text. Return pure JSON that can be parsed directly.
+
+Make sure to include all requested fields, especially the "reasoning" field with a detailed explanation."""
         
         try:
             response = await self.generate(json_prompt, system_prompt, temperature=0.3)
         except Exception as e:
             # Return error in JSON format instead of raising
+            print(f"LLM generate_json error: {str(e)}")
             return {
                 "error": True,
                 "message": str(e),
