@@ -5,6 +5,7 @@ An AI-powered platform that helps students and professionals identify skill gaps
 ## 🎯 Features
 
 - **Job Description Analysis**: AI-powered parsing of job descriptions to extract required skills
+- **Resume Parsing & Matching**: Intelligent resume parsing from PDF/DOC/DOCX with accurate field extraction (name, email, experience) and Resume-JD matching with visual scorecards
 - **Profile Analysis**: Normalize and analyze user skills and experience
 - **Skill Gap Analysis**: Compare job requirements with user profile to identify gaps
 - **Learning Roadmap**: Generate personalized 6-8 week learning plans
@@ -22,12 +23,12 @@ An AI-powered platform that helps students and professionals identify skill gaps
 - **AI/ML**: 
   - Google Gemini API (LLM for reasoning and planning)
   - Sentence Transformers (Embeddings for RAG)
-- **Authentication**: JWT tokens, bcrypt password hashing
+- **Authentication**: JWT tokens, bcr  ypt password hashing
 - **Email**: SMTP (aiosmtplib)
 
 ### Frontend
 - **Framework**: React 18
-- **Build Tool**: Vite
+- **Build Tool**: Vite     
 - **Styling**: Tailwind CSS
 - **Charts**: Recharts
 - **Icons**: Lucide React
@@ -138,6 +139,8 @@ An AI-powered platform that helps students and professionals identify skill gaps
 - `POST /api/analyze-jd` - Analyze job description (requires auth)
 - `POST /api/analyze-profile` - Analyze user profile (requires auth)
 - `POST /api/skill-gap` - Get skill gap analysis (requires auth)
+- `POST /api/upload-resume` - Upload and parse resume (PDF/DOC/DOCX) (requires auth)
+- `POST /api/match-resume-jd` - Match resume with job description and get visual scorecard (requires auth)
 
 ### Roadmap & Practice
 - `POST /api/generate-roadmap` - Generate learning roadmap (requires auth)
@@ -150,11 +153,34 @@ An AI-powered platform that helps students and professionals identify skill gaps
 The system uses multiple specialized AI agents:
 
 1. **JD Parser Agent**: Extracts structured skill requirements from job descriptions
-2. **Profile Analyzer Agent**: Normalizes and analyzes user skills
-3. **Skill Gap Analyzer Agent**: Identifies gaps and explains why skills matter
-4. **Roadmap Planner Agent**: Generates realistic 6-8 week learning plans
-5. **Practice Generator Agent**: Creates tailored practice tasks and challenges
-6. **Reflection Agent**: Updates recommendations based on progress
+2. **Resume Analyzer Agent**: Multi-pass resume parsing with hallucination prevention, accurate name/email/experience extraction, and confidence tagging
+3. **Profile Analyzer Agent**: Normalizes and analyzes user skills
+4. **Skill Gap Analyzer Agent**: Identifies gaps and explains why skills matter
+5. **Roadmap Planner Agent**: Generates realistic 6-8 week learning plans
+6. **Practice Generator Agent**: Creates tailored practice tasks and challenges
+7. **Reflection Agent**: Updates recommendations based on progress
+
+## 📄 Resume Parsing Features
+
+The Resume Analyzer uses a deterministic, multi-pass parsing pipeline:
+
+- **Accurate Field Extraction**: 
+  - Name extraction (excludes section headers like "EDUCATION", "EXPERIENCE")
+  - Email validation (no inference or modification)
+  - Experience calculation (handles Fresher, Not Mentioned, and year ranges)
+  
+- **Smart Experience Detection**:
+  - Detects internships, trainees, and project-based experience
+  - Returns "Fresher" for students/new graduates
+  - Returns "Not Mentioned" when experience is unclear
+  - Never defaults to "0 years"
+
+- **Format Support**: PDF, DOC, DOCX with robust text cleaning and normalization
+
+- **Resume-JD Matching**: 
+  - Weighted scoring (40% core skills, 25% projects, 15% tools, 10% experience, 10% soft skills)
+  - Skill classification (Strong, Partial, Weak/Missing)
+  - Visual scorecards and charts for frontend rendering
 
 ## 🔐 Authentication
 

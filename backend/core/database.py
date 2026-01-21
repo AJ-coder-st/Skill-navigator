@@ -54,3 +54,16 @@ async def init_database():
                 if sample_courses:
                     await courses.insert_many(sample_courses)
                     print(f"Loaded {len(sample_courses)} sample courses")
+    
+    # Initialize evaluation challenges collection
+    eval_challenges = database["evaluation_challenges"]
+    eval_count = await eval_challenges.count_documents({})
+    
+    if eval_count == 0:
+        eval_challenges_path = os.path.join(os.path.dirname(__file__), "..", "data", "evaluation_challenges.json")
+        if os.path.exists(eval_challenges_path):
+            with open(eval_challenges_path, "r") as f:
+                eval_challenges_data = json.load(f)
+                if eval_challenges_data:
+                    await eval_challenges.insert_many(eval_challenges_data)
+                    print(f"Loaded {len(eval_challenges_data)} evaluation challenges")

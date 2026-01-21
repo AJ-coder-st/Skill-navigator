@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { analyzeJD, analyzeProfile, analyzeSkillGap } from '../services/api'
+import { analyzeJD, analyzeProfile, analyzeSkillGap, uploadResume, matchResumeJD } from '../services/api'
 import SkillGapChart from './SkillGapChart'
 import AIResponsePanel, { 
   SkillCard, MatchScore, InsightCard, AccordionSection, LoadingSkeleton 
@@ -7,7 +7,7 @@ import AIResponsePanel, {
 import { 
   Loader2, CheckCircle, XCircle, AlertCircle, Sparkles, 
   Target, TrendingUp, Lightbulb, Copy, RefreshCw, FileText,
-  Award, AlertTriangle, BookOpen, Code, Database, Wrench
+  Award, AlertTriangle, BookOpen, Code, Database, Wrench, Upload, File
 } from 'lucide-react'
 
 function Analysis() {
@@ -23,7 +23,10 @@ function Analysis() {
   const [jdResult, setJdResult] = useState(null)
   const [profileResult, setProfileResult] = useState(null)
   const [skillGapResult, setSkillGapResult] = useState(null)
-  const [loading, setLoading] = useState({ jd: false, profile: false, gap: false })
+  const [resumeFile, setResumeFile] = useState(null)
+  const [resumeResult, setResumeResult] = useState(null)
+  const [resumeMatchResult, setResumeMatchResult] = useState(null)
+  const [loading, setLoading] = useState({ jd: false, profile: false, gap: false, resume: false, match: false })
   const [error, setError] = useState(null)
 
   // Load from localStorage on mount
@@ -119,6 +122,69 @@ function Analysis() {
       setError(err.response?.data?.message || err.response?.data?.detail || 'Failed to analyze skill gaps')
     } finally {
       setLoading(prev => ({ ...prev, gap: false }))
+    }
+  }
+
+  const handleResumeUpload = async () => {
+    if (!resumeFile) {
+      setError('Please select a resume file')
+      return
+    }
+    
+    // Validate file type
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+    if (!allowedTypes.includes(resumeFile.type)) {
+      setError('Please upload a PDF or DOC/DOCX file')
+      return
+    }
+    
+    setLoading(prev => ({ ...prev, resume: true }))
+    setError(null)
+    try {
+      const result = await uploadResume(resumeFile)
+      const data = result.data || result
+      setResumeResult(data)
+      localStorage.setItem('resumeResult', JSON.stringify(data))
+      
+      // Auto-populate profile if resume analysis succeeded
+      if (data && !data.error) {
+        const skills = data.skills || {}
+        const allSkills = [
+          ...(skills.technical_skills || []),
+          ...(skills.programming_languages || []),
+          ...(skills.tools_frameworks || [])
+        ]
+        setProfile({
+          ...profile,
+          skills: allSkills.join(', '),
+          degree: data.education?.[0]?.degree || profile.degree,
+          projects: (data.projects || []).map(p => p.title || p).join(', ')
+        })
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to upload resume')
+    } finally {
+      setLoading(prev => ({ ...prev, resume: false }))
+    }
+  }
+
+  const handleMatchResumeJD = async () => {
+    if (!resumeResult || !jdResult) {
+      setError('Please upload resume and analyze job description first')
+      return
+    }
+    
+    setLoading(prev => ({ ...prev, match: true }))
+    setError(null)
+    try {
+      const result = await matchResumeJD(resumeResult, jdResult)
+      const data = result.data || result
+      setResumeMatchResult(data)
+      localStorage.setItem('resumeMatchResult', JSON.stringify(data))
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to match resume with JD')
+    } finally {
+      setLoading(prev => ({ ...prev, match: false }))
     }
   }
 
@@ -320,6 +386,209 @@ function Analysis() {
               <p className="text-sm text-blue-800">
                 <strong>Level:</strong> {profileResult.experience_level || 'Not specified'}
               </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Resume Upload Section */}
+      <div className="bg-white shadow-lg rounded-xl p-6 border-2 border-gray-100 mb-6">
+        <div className="flex items-center gap-2 mb-4">
+          <File className="h-6 w-6 text-purple-600" />
+          <h2 className="text-xl font-bold text-gray-900">Upload Resume (Alternative)</h2>
+        </div>
+        <p className="text-sm text-gray-600 mb-4">
+          Upload your resume (PDF, DOC, or DOCX) to automatically extract your profile information
+        </p>
+        
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Resume File
+            </label>
+            <div className="flex items-center gap-4">
+              <label className="flex-1 cursor-pointer">
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={(e) => setResumeFile(e.target.files[0])}
+                  className="hidden"
+                />
+                <div className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-500 transition-colors text-center">
+                  {resumeFile ? (
+                    <div className="flex items-center justify-center gap-2 text-purple-600">
+                      <File className="h-5 w-5" />
+                      <span className="font-medium">{resumeFile.name}</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 text-gray-500">
+                      <Upload className="h-8 w-8" />
+                      <span>Click to select resume file</span>
+                      <span className="text-xs">PDF, DOC, or DOCX</span>
+                    </div>
+                  )}
+                </div>
+              </label>
+            </div>
+          </div>
+          
+          <button
+            onClick={handleResumeUpload}
+            disabled={loading.resume || !resumeFile}
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-semibold shadow-md transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+          >
+            {loading.resume ? (
+              <>
+                <Loader2 className="animate-spin h-5 w-5" />
+                <span>Analyzing Resume...</span>
+              </>
+            ) : (
+              <>
+                <File className="h-5 w-5" />
+                <span>Analyze Resume</span>
+              </>
+            )}
+          </button>
+
+          {loading.resume && (
+            <div className="mt-4">
+              <LoadingSkeleton type="analysis" />
+            </div>
+          )}
+
+          {resumeResult && !loading.resume && (
+            <div className="mt-4 p-4 bg-purple-50 border-2 border-purple-200 rounded-lg animate-fadeIn">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-purple-600" />
+                  <h3 className="font-bold text-purple-900">Resume Analyzed</h3>
+                </div>
+                <button
+                  onClick={() => copyToClipboard(JSON.stringify(resumeResult, null, 2))}
+                  className="p-1 hover:bg-purple-100 rounded transition-colors"
+                  title="Copy results"
+                >
+                  <Copy className="h-4 w-4 text-purple-700" />
+                </button>
+              </div>
+              {resumeResult.personal_info && (
+                <div className="text-sm text-purple-800 space-y-1">
+                  <p><strong>Name:</strong> {resumeResult.personal_info.name || 'N/A'}</p>
+                  <p><strong>Email:</strong> {resumeResult.personal_info.email || 'N/A'}</p>
+                  <p><strong>Experience:</strong> {resumeResult.experience_years || '0'} years</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {resumeResult && jdResult && !loading.match && (
+            <button
+              onClick={handleMatchResumeJD}
+              disabled={loading.match}
+              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-indigo-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-semibold shadow-md transition-all transform hover:scale-[1.02] active:scale-[0.98] mt-4"
+            >
+              {loading.match ? (
+                <>
+                  <Loader2 className="animate-spin h-5 w-5" />
+                  <span>Matching Resume with JD...</span>
+                </>
+              ) : (
+                <>
+                  <Target className="h-5 w-5" />
+                  <span>Match Resume with Job Description</span>
+                </>
+              )}
+            </button>
+          )}
+
+          {loading.match && (
+            <div className="mt-4">
+              <LoadingSkeleton type="analysis" />
+            </div>
+          )}
+
+          {resumeMatchResult && !loading.match && (
+            <div className="mt-4 p-6 bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-lg animate-fadeIn">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-indigo-900 flex items-center gap-2">
+                  <Award className="h-6 w-6" />
+                  Resume-JD Match Analysis
+                </h3>
+                <button
+                  onClick={() => copyToClipboard(JSON.stringify(resumeMatchResult, null, 2))}
+                  className="p-1 hover:bg-indigo-100 rounded transition-colors"
+                  title="Copy results"
+                >
+                  <Copy className="h-4 w-4 text-indigo-700" />
+                </button>
+              </div>
+              
+              {resumeMatchResult.match_analysis && (
+                <div className="space-y-4">
+                  <div className="bg-white rounded-lg p-4 border-2 border-indigo-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-semibold text-gray-900">Match Score</span>
+                      <span className="text-2xl font-bold text-indigo-600">
+                        {resumeMatchResult.match_analysis.match_percentage || '0'}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-3 mt-2">
+                      <div
+                        className="bg-gradient-to-r from-indigo-500 to-purple-500 h-3 rounded-full transition-all duration-500"
+                        style={{ width: `${resumeMatchResult.match_analysis.match_percentage || 0}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {resumeMatchResult.match_analysis.matched_skills && resumeMatchResult.match_analysis.matched_skills.length > 0 && (
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                        <CheckCircle className="h-5 w-5 text-green-600" />
+                        Matched Skills ({resumeMatchResult.match_analysis.matched_skills.length})
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {resumeMatchResult.match_analysis.matched_skills.map((skill, idx) => (
+                          <span key={idx} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {resumeMatchResult.match_analysis.missing_skills && resumeMatchResult.match_analysis.missing_skills.length > 0 && (
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                        <XCircle className="h-5 w-5 text-red-600" />
+                        Missing Skills ({resumeMatchResult.match_analysis.missing_skills.length})
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {resumeMatchResult.match_analysis.missing_skills.map((skill, idx) => (
+                          <span key={idx} className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-medium">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {resumeMatchResult.recommendations && resumeMatchResult.recommendations.priority_skills_to_learn && resumeMatchResult.recommendations.priority_skills_to_learn.length > 0 && (
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                        <Lightbulb className="h-5 w-5 text-yellow-600" />
+                        Recommended Skills to Learn
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {resumeMatchResult.recommendations.priority_skills_to_learn.map((skill, idx) => (
+                          <span key={idx} className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>

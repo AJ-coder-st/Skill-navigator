@@ -1,0 +1,36 @@
+{
+  "degree": "Bachelor of Science in Computer Science",
+  "skills": [
+    "Python",
+    "JavaScript",
+    "HTML",
+    "CSS",
+    "Git",
+    "SQL",
+    "Java",
+    "C++"
+  ],
+  "experience_level": "beginner",
+  "projects": [
+    "Built a todo list web application using HTML, CSS, and JavaScript",
+    "Created a simple REST API using Python Flask",
+    "Developed a database management system using SQL",
+    "Implemented a calculator application in Java"
+  ],
+  "certifications": [
+    "Google IT Support Professional Certificate",
+    "FreeCodeCamp Responsive Web Design"
+  ],
+  "work_experience": [
+    {
+      "role": "Intern - Software Development",
+      "duration": "3 months",
+      "description": "Assisted in developing web applications and learned version control"
+    }
+  ],
+  "education": {
+    "degree": "BS Computer Science",
+    "institution": "State University",
+    "graduation_year": "2024"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "degree": "Bachelor of Science in Computer Science",
+  "skills": [
+    "Python",
+    "JavaScript",
+    "Git",
+    "SQL"
+  ],
+  "experience_level": "beginner",
+  "projects": [
+    "Built a chatbot using Python",
+    "Created a simple web app with JavaScript"
+  ],
+  "certifications": []
+}

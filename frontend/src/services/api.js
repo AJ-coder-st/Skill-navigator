@@ -67,3 +67,23 @@ export const getDashboardSummary = async () => {
   const response = await api.get('/dashboard-summary')
   return response.data
 }
+
+export const uploadResume = async (file) => {
+  const formData = new FormData()
+  formData.append('file', file)
+  
+  const response = await api.post('/upload-resume', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
+  return response.data
+}
+
+export const matchResumeJD = async (resumeProfile, jobRequirements) => {
+  const response = await api.post('/match-resume-jd', {
+    resume_profile: resumeProfile,
+    job_requirements: jobRequirements,
+  })
+  return response.data
+}

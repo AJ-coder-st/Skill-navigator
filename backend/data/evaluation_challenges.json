@@ -1,0 +1,57 @@
+[
+  {
+    "id": "eval_001",
+    "skill": "SQL",
+    "title": "Complex Multi-Table Analytics",
+    "difficulty": "intermediate",
+    "description": "Write complex SQL queries joining 5+ tables to analyze customer lifetime value, purchase patterns, and product recommendations",
+    "requirements": ["Multi-table JOINs", "Window functions", "CTEs", "Subqueries", "Aggregate functions"],
+    "estimated_time": "6 hours",
+    "evaluation_type": "held_out",
+    "test_skills": ["SQL", "Data Analysis", "Database Design"]
+  },
+  {
+    "id": "eval_002",
+    "skill": "Python",
+    "title": "Production-Ready API with Authentication",
+    "difficulty": "advanced",
+    "description": "Build a RESTful API with JWT authentication, rate limiting, error handling, logging, and comprehensive tests",
+    "requirements": ["FastAPI/Flask", "JWT", "Database ORM", "Testing", "Error handling", "Logging"],
+    "estimated_time": "10 hours",
+    "evaluation_type": "held_out",
+    "test_skills": ["Python", "API Development", "Security", "Testing"]
+  },
+  {
+    "id": "eval_003",
+    "skill": "React",
+    "title": "State Management with Redux Toolkit",
+    "difficulty": "intermediate",
+    "description": "Build a complex React application with Redux Toolkit, async thunks, normalized state, and performance optimization",
+    "requirements": ["React Hooks", "Redux Toolkit", "Async operations", "State normalization", "Memoization"],
+    "estimated_time": "8 hours",
+    "evaluation_type": "held_out",
+    "test_skills": ["React", "State Management", "Performance"]
+  },
+  {
+    "id": "eval_004",
+    "skill": "Machine Learning",
+    "title": "End-to-End ML Pipeline",
+    "difficulty": "advanced",
+    "description": "Create a complete ML pipeline from data collection, preprocessing, feature engineering, model training, evaluation, and deployment",
+    "requirements": ["Data preprocessing", "Feature engineering", "Model selection", "Hyperparameter tuning", "Model evaluation", "Deployment"],
+    "estimated_time": "15 hours",
+    "evaluation_type": "held_out",
+    "test_skills": ["Machine Learning", "Data Science", "MLOps"]
+  },
+  {
+    "id": "eval_005",
+    "skill": "System Design",
+    "title": "Scalable Architecture Design",
+    "difficulty": "advanced",
+    "description": "Design a scalable system architecture for a high-traffic application with load balancing, caching, database sharding, and microservices",
+    "requirements": ["System architecture", "Load balancing", "Caching strategies", "Database design", "Microservices", "Scalability"],
+    "estimated_time": "12 hours",
+    "evaluation_type": "held_out",
+    "test_skills": ["System Design", "Architecture", "Scalability"]
+  }
+]
